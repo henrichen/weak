@@ -1,0 +1,54 @@
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+out/
+!**/src/main/**/out/
+!**/src/test/**/out/
+
+### VS Code ###
+.settings/
+.vscode/
+
+### Java ###
+*.class
+*.ctxt
+*.jar
+*.war
+hs_err_pid*
+replay_pid*
+
+### Gradle ###
+.gradle
+gradle-app.setting
+!gradle-wrapper.jar
+!gradle-wrapper.properties
+!**/src/main/**/build/
+!**/src/test/**/build/
+.gradletasknamecache
+.project
+.classpath
+
+### Dart ###
+.dart_tool/
+.packages
+.pub-cache/
+.pub/
+.env*
+*.dart.js
+!**/tool/build
+doc/
+
+### Node ###
+node_modules/
+typings/
+package-lock.json
+.pnpm-debug.log*
+.eslintcache
+
+# Miscellaneous ###
+*.lock
+.DS_Store
+build/
+log/
