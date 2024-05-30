@@ -61,8 +61,7 @@ void main() async {
     });
   });
 
-  group('WeakHashMap clear()', ()
-  {
+  group('WeakHashMap clear()', () {
     test('1 entry', () async {
       const count = 1;
       await _testWeakSetClear(count, vmService);
@@ -156,7 +155,8 @@ FutureOr _testWeakHashSetAddContains(int count, VmServiceUtil vmService) async {
   // request 1Mb memory to trigger GC
   // var dummy = List.filled(1024*1024, Y(10000));
   await vmService.gc();
-  expect(weakSet, isEmpty, reason: 'Seems not fully GCed. ${weakSet.length}\n$weakSet');
+  expect(weakSet, isEmpty,
+      reason: 'Seems not fully GCed. ${weakSet.length}\n$weakSet');
 }
 
 FutureOr _testWeakSetClear(int count, VmServiceUtil vmService) async {
@@ -204,7 +204,8 @@ FutureOr _testWeakSetClear(int count, VmServiceUtil vmService) async {
   // request 1Mb memory to trigger GC
   // var dummy = List.filled(1024*1024, Y(10000));
   await vmService.gc();
-  expect(weakSet, isEmpty, reason: 'Seems not fully GCed. ${weakSet.length}\n$weakSet');
+  expect(weakSet, isEmpty,
+      reason: 'Seems not fully GCed. ${weakSet.length}\n$weakSet');
 }
 
 FutureOr _testWeakHashSetIterable(int count, VmServiceUtil vmService) async {
@@ -239,7 +240,7 @@ FutureOr _testWeakHashSetIterable(int count, VmServiceUtil vmService) async {
   // print('null even gcValues and force GC');
 
   // even is null
-  if (weakSet.length == count ~/2) {
+  if (weakSet.length == count ~/ 2) {
     for (var j = 0; j < count; j += 2) {
       expect(weakSet.lookup(values[j]), isNull,
           reason: 'Seems not GCed. weakSet:${weakSet.length}\n$weakSet');
@@ -288,7 +289,7 @@ FutureOr _testWeakSetRemove(int count, VmServiceUtil vmService) async {
   // print('null even gcValues and force GC');
 
   // even is null
-  if (weakSet.length == count ~/2) {
+  if (weakSet.length == count ~/ 2) {
     for (var j = 0; j < count; j += 2) {
       expect(weakSet.lookup(values[j]), isNull,
           reason: 'Seems not GCed. weakSet:${weakSet.length}\n$weakSet');
@@ -313,9 +314,8 @@ class X {
   int get hashCode => value.hashCode;
 
   @override
-  bool operator==(Object other)
-  => identical(this, other)
-      || (other is X && value == other.value);
+  bool operator ==(Object other) =>
+      identical(this, other) || (other is X && value == other.value);
 
   @override
   String toString() => 'X$value';

@@ -2,6 +2,7 @@
 // gc_util.dart - created by Henri Chen<chenhenri@gmail.com>
 // Copyright (C) 2024 Henri Chen<chenhenri@gmail.com>. All Rights Reserved.
 library gc_util;
+
 import 'dart:async';
 import 'dart:developer';
 import 'dart:io';
@@ -36,9 +37,10 @@ const kTag = 'vm_services';
 /// ```
 FutureOr<void> runTestsInVmService(
   FutureOr<void> Function(VmServiceUtil) body, {
-    required String selfFilePath,
-  }) async {
-  Log.d(kTag, 'runInVmService selfFilePath=$selfFilePath Platform.script.path=${Platform.script.path}');
+  required String selfFilePath,
+}) async {
+  Log.d(kTag,
+      'runInVmService selfFilePath=$selfFilePath Platform.script.path=${Platform.script.path}');
 
   if (Platform.script.path == selfFilePath) {
     final vmService = await VmServiceUtil.create();
@@ -46,7 +48,8 @@ FutureOr<void> runTestsInVmService(
     await body(vmService);
   } else {
     test('run all tests in subprocess', () async {
-      await executeProcess('dart', ['run', '--enable-vm-service', selfFilePath]);
+      await executeProcess(
+          'dart', ['run', '--enable-vm-service', selfFilePath]);
     });
   }
 }
@@ -65,7 +68,8 @@ class VmServiceUtil {
           'Ensure you run like `dart run --enable-vm-service path/to/your/file.dart`');
     }
 
-    final vmService = await vmServiceConnectUri(_toWebSocket(serverUri), log: _Log());
+    final vmService =
+        await vmServiceConnectUri(_toWebSocket(serverUri), log: _Log());
     return VmServiceUtil._(vmService);
   }
 
@@ -102,7 +106,8 @@ Future<void> executeProcess(String executable, List<String> arguments) async {
   final process = await Process.start(executable, arguments);
 
   process.stdout.listen((e) => Log.d(kTag, String.fromCharCodes(e)));
-  process.stderr.listen((e) => Log.d(kTag, '[STDERR] ${String.fromCharCodes(e)}'));
+  process.stderr
+      .listen((e) => Log.d(kTag, '[STDERR] ${String.fromCharCodes(e)}'));
 
 //  stdout.addStream(process.stdout);
 //  stderr.addStream(process.stderr);
@@ -122,11 +127,12 @@ class Log {
     final logger = Logger(name);
     logger.clearListeners();
     logger.onRecord.listen((record) {
-       print('${record.level.name}: ${record.time}: ${record.message}');
-       // if (record.error != null) print('error: ${record.error}');
-       if (record.stackTrace != null) print('${record.stackTrace}');
+      print('${record.level.name}: ${record.time}: ${record.message}');
+      // if (record.error != null) print('error: ${record.error}');
+      if (record.stackTrace != null) print('${record.stackTrace}');
     });
   }
+
   static printOff(String name) => Logger(name).clearListeners();
 }
 
@@ -138,9 +144,8 @@ class X {
   int get hashCode => value.hashCode;
 
   @override
-  bool operator==(Object other)
-  => identical(this, other)
-      || (other is X && value == other.value);
+  bool operator ==(Object other) =>
+      identical(this, other) || (other is X && value == other.value);
 
   @override
   String toString() => 'X$value';

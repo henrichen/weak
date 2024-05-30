@@ -15,8 +15,7 @@ import 'gc_util.dart';
 void main() async {
   final vmService = await VmServiceUtil.create();
 
-  group('WeakHashMap []=, [] operators, and containsKey()', ()
-  {
+  group('WeakHashMap []=, [] operators, and containsKey()', () {
     test('1 entry', () async {
       const count = 1;
       await _testWeakMapGetSet(count, vmService);
@@ -60,8 +59,7 @@ void main() async {
     });
   });
 
-  group('WeakHashMap clear()', ()
-  {
+  group('WeakHashMap clear()', () {
     test('1 entry', () async {
       const count = 1;
       await _testWeakMapClear(count, vmService);
@@ -199,7 +197,8 @@ Future<void> _testWeakMapIterable(int count, VmServiceUtil vmService) async {
 
   // even is null
   for (var j = 0; j < count; j += 2) {
-    expect(weakMap[xKeys[j]], isNull, reason: 'Seems not GCed. weakMap:${weakMap.length}\n$weakMap');
+    expect(weakMap[xKeys[j]], isNull,
+        reason: 'Seems not GCed. weakMap:${weakMap.length}\n$weakMap');
   }
 
   // odd exists
@@ -299,7 +298,8 @@ Future<void> _testWeakMapRemove(int count, VmServiceUtil vmService) async {
 
   // even is null because it is removed from the map but xGcKeys still hold X.
   for (var j = 0; j < count; j += 2) {
-    expect(weakMap[xKeys[j]], isNull, reason: 'Seems not removed. weakMap:${weakMap.length}\n$weakMap');
+    expect(weakMap[xKeys[j]], isNull,
+        reason: 'Seems not removed. weakMap:${weakMap.length}\n$weakMap');
   }
 
   // odd exists

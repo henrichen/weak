@@ -279,7 +279,6 @@ Future<void> main() async {
 }
 
 Future<void> _testWeakListGetSet(int count, VmServiceUtil vmService) async {
-
   final weakList = WeakList<X>();
   final xGcKeys = <X?>[];
   final xKeys = <X>[];
@@ -329,8 +328,8 @@ Future<void> _testWeakListGetSet(int count, VmServiceUtil vmService) async {
   }
 }
 
-Future<void> _testFixedWeakListGetSet(int count, VmServiceUtil vmService) async {
-
+Future<void> _testFixedWeakListGetSet(
+    int count, VmServiceUtil vmService) async {
   List<X?>? weakList0 = WeakList<X>();
   final xGcKeys = <X?>[];
   final xKeys = <X>[];
@@ -383,8 +382,8 @@ Future<void> _testFixedWeakListGetSet(int count, VmServiceUtil vmService) async 
   }
 }
 
-Future<void> _testUnmodifiableWeakListGetSet(int count, VmServiceUtil vmService) async {
-
+Future<void> _testUnmodifiableWeakListGetSet(
+    int count, VmServiceUtil vmService) async {
   List<X?>? weakList0 = WeakList<X>();
   final xGcKeys = <X?>[];
   final xKeys = <X>[];
@@ -442,7 +441,6 @@ Future<void> _testUnmodifiableWeakListGetSet(int count, VmServiceUtil vmService)
 }
 
 Future<void> _testWeakListIterable(int count, VmServiceUtil vmService) async {
-
   final weakList = WeakList<X>();
   final xGcKeys = <X?>[];
   final xKeys = <X>[];
@@ -473,7 +471,9 @@ Future<void> _testWeakListIterable(int count, VmServiceUtil vmService) async {
 
   // even is null
   for (var j = 0; j < count; j += 2) {
-    expect(weakList[j], isNull, reason: 'Seems not GCed. j: $j, weakList:${weakList.length}\n$weakList');
+    expect(weakList[j], isNull,
+        reason:
+            'Seems not GCed. j: $j, weakList:${weakList.length}\n$weakList');
   }
 
   // odd exists
@@ -486,11 +486,9 @@ Future<void> _testWeakListIterable(int count, VmServiceUtil vmService) async {
     expect(x, equals(xGcKeys[j]), reason: 'j: $j');
     j += 1;
   }
-
 }
 
 Future<void> _testWeakListClear(int count, VmServiceUtil vmService) async {
-
   final weakList = WeakList<X>();
   final xGcKeys = <X?>[];
   final xKeys = <X>[];
@@ -533,7 +531,6 @@ Future<void> _testWeakListClear(int count, VmServiceUtil vmService) async {
 }
 
 Future<void> _testFixedWeakListClear(int count, VmServiceUtil vmService) async {
-
   List<X?>? weakList0 = WeakList<X>();
   final xGcKeys = <X?>[];
   final xKeys = <X>[];
@@ -582,12 +579,10 @@ Future<void> _testFixedWeakListClear(int count, VmServiceUtil vmService) async {
 
     // clear
     expect(() => weakList.clear(), throwsUnsupportedError);
-
   }
 }
 
 Future<void> _testFixedWeakListAdd(int count, VmServiceUtil vmService) async {
-
   List<X?>? weakList0 = WeakList<X>();
   final xGcKeys = <X?>[];
   final xKeys = <X>[];
@@ -636,12 +631,10 @@ Future<void> _testFixedWeakListAdd(int count, VmServiceUtil vmService) async {
 
     // clear
     expect(() => weakList.add(X(1000)), throwsUnsupportedError);
-
   }
 }
 
 Future<void> _testWeakListRemove(int count, VmServiceUtil vmService) async {
-
   final weakList = WeakList<X>();
   final xGcKeys = <X?>[];
   final xKeys = <X>[];
@@ -667,7 +660,8 @@ Future<void> _testWeakListRemove(int count, VmServiceUtil vmService) async {
 
   weakList.validElementCount();
 
-  expect(weakList.length, equals(count ~/2), reason: 'Seems not removed. weakList:${weakList.length}\n$weakList');
+  expect(weakList.length, equals(count ~/ 2),
+      reason: 'Seems not removed. weakList:${weakList.length}\n$weakList');
 
   // only odd element exists
   for (final x in weakList) {
@@ -675,8 +669,8 @@ Future<void> _testWeakListRemove(int count, VmServiceUtil vmService) async {
   }
 }
 
-Future<void> _testFixedWeakListRemove(int count, VmServiceUtil vmService) async {
-
+Future<void> _testFixedWeakListRemove(
+    int count, VmServiceUtil vmService) async {
   List<X?>? weakList0 = WeakList<X>();
   final xGcKeys = <X?>[];
   final xKeys = <X>[];
@@ -717,12 +711,10 @@ Future<void> _testFixedWeakListRemove(int count, VmServiceUtil vmService) async 
     }
 
     weakList.validElementCount();
-
   }
 }
 
 Future<void> _testWeakListRemoveAt(int count, VmServiceUtil vmService) async {
-
   final weakList = WeakList<X>();
   final xGcKeys = <X?>[];
   final xKeys = <X>[];
@@ -748,7 +740,8 @@ Future<void> _testWeakListRemoveAt(int count, VmServiceUtil vmService) async {
 
   weakList.validElementCount();
 
-  expect(weakList.length, equals(count ~/2), reason: 'Seems not removed. weakList:${weakList.length}\n$weakList');
+  expect(weakList.length, equals(count ~/ 2),
+      reason: 'Seems not removed. weakList:${weakList.length}\n$weakList');
 
   // only odd element exists
   for (final x in weakList) {
@@ -756,8 +749,8 @@ Future<void> _testWeakListRemoveAt(int count, VmServiceUtil vmService) async {
   }
 }
 
-Future<void> _testFixedWeakListRemoveAt(int count, VmServiceUtil vmService) async {
-
+Future<void> _testFixedWeakListRemoveAt(
+    int count, VmServiceUtil vmService) async {
   List<X?>? weakList0 = WeakList<X>();
   final xGcKeys = <X?>[];
   final xKeys = <X>[];
@@ -798,12 +791,11 @@ Future<void> _testFixedWeakListRemoveAt(int count, VmServiceUtil vmService) asyn
     }
 
     weakList.validElementCount();
-
   }
 }
 
-Future<void> _testFixedWeakListAddAll(int count, VmServiceUtil vmService) async {
-
+Future<void> _testFixedWeakListAddAll(
+    int count, VmServiceUtil vmService) async {
   List<X?>? weakList0 = WeakList<X>();
   final xGcKeys = <X?>[];
   final xKeys = <X>[];
@@ -852,12 +844,11 @@ Future<void> _testFixedWeakListAddAll(int count, VmServiceUtil vmService) async 
 
     // clear
     expect(() => weakList.addAll(xKeys), throwsUnsupportedError);
-
   }
 }
 
-Future<void> _testFixedWeakListInsert(int count, VmServiceUtil vmService) async {
-
+Future<void> _testFixedWeakListInsert(
+    int count, VmServiceUtil vmService) async {
   List<X?>? weakList0 = WeakList<X>();
   final xGcKeys = <X?>[];
   final xKeys = <X>[];
@@ -906,12 +897,11 @@ Future<void> _testFixedWeakListInsert(int count, VmServiceUtil vmService) async 
 
     // clear
     expect(() => weakList.insert(0, X(1000)), throwsUnsupportedError);
-
   }
 }
 
-Future<void> _testFixedWeakListInsertAll(int count, VmServiceUtil vmService) async {
-
+Future<void> _testFixedWeakListInsertAll(
+    int count, VmServiceUtil vmService) async {
   List<X?>? weakList0 = WeakList<X>();
   final xGcKeys = <X?>[];
   final xKeys = <X>[];
@@ -960,12 +950,11 @@ Future<void> _testFixedWeakListInsertAll(int count, VmServiceUtil vmService) asy
 
     // clear
     expect(() => weakList.insertAll(0, xKeys), throwsUnsupportedError);
-
   }
 }
 
-Future<void> _testFixedWeakListLength(int count, VmServiceUtil vmService) async {
-
+Future<void> _testFixedWeakListLength(
+    int count, VmServiceUtil vmService) async {
   List<X?>? weakList0 = WeakList<X>();
   final xGcKeys = <X?>[];
   final xKeys = <X>[];
@@ -1014,12 +1003,11 @@ Future<void> _testFixedWeakListLength(int count, VmServiceUtil vmService) async 
 
     // clear
     expect(() => weakList.length = count - 1, throwsUnsupportedError);
-
   }
 }
 
-Future<void> _testFixedWeakListRemoveLast(int count, VmServiceUtil vmService) async {
-
+Future<void> _testFixedWeakListRemoveLast(
+    int count, VmServiceUtil vmService) async {
   List<X?>? weakList0 = WeakList<X>();
   final xGcKeys = <X?>[];
   final xKeys = <X>[];
@@ -1068,12 +1056,11 @@ Future<void> _testFixedWeakListRemoveLast(int count, VmServiceUtil vmService) as
 
     // clear
     expect(() => weakList.removeLast(), throwsUnsupportedError);
-
   }
 }
 
-Future<void> _testFixedWeakListRemoveRange(int count, VmServiceUtil vmService) async {
-
+Future<void> _testFixedWeakListRemoveRange(
+    int count, VmServiceUtil vmService) async {
   List<X?>? weakList0 = WeakList<X>();
   final xGcKeys = <X?>[];
   final xKeys = <X>[];
@@ -1122,12 +1109,11 @@ Future<void> _testFixedWeakListRemoveRange(int count, VmServiceUtil vmService) a
 
     // clear
     expect(() => weakList.removeRange(0, count), throwsUnsupportedError);
-
   }
 }
 
-Future<void> _testFixedWeakListReplaceRange(int count, VmServiceUtil vmService) async {
-
+Future<void> _testFixedWeakListReplaceRange(
+    int count, VmServiceUtil vmService) async {
   List<X?>? weakList0 = WeakList<X>();
   final xGcKeys = <X?>[];
   final xKeys = <X>[];
@@ -1175,13 +1161,13 @@ Future<void> _testFixedWeakListReplaceRange(int count, VmServiceUtil vmService) 
     }
 
     // clear
-    expect(() => weakList.replaceRange(0, count, xKeys), throwsUnsupportedError);
-
+    expect(
+        () => weakList.replaceRange(0, count, xKeys), throwsUnsupportedError);
   }
 }
 
-Future<void> _testFixedWeakListRemoveWhere(int count, VmServiceUtil vmService) async {
-
+Future<void> _testFixedWeakListRemoveWhere(
+    int count, VmServiceUtil vmService) async {
   List<X?>? weakList0 = WeakList<X>();
   final xGcKeys = <X?>[];
   final xKeys = <X>[];
@@ -1211,7 +1197,8 @@ Future<void> _testFixedWeakListRemoveWhere(int count, VmServiceUtil vmService) a
   }
 
   // clear
-  expect(() => weakList.removeWhere((e) => e == X(1000)), throwsUnsupportedError);
+  expect(
+      () => weakList.removeWhere((e) => e == X(1000)), throwsUnsupportedError);
 
   {
     final weakList = WeakList.unmodifiable(weakList0);
@@ -1229,13 +1216,13 @@ Future<void> _testFixedWeakListRemoveWhere(int count, VmServiceUtil vmService) a
     }
 
     // clear
-    expect(() => weakList.removeWhere((e) => e == X(1000)), throwsUnsupportedError);
-
+    expect(() => weakList.removeWhere((e) => e == X(1000)),
+        throwsUnsupportedError);
   }
 }
 
-Future<void> _testFixedWeakListRetainWhere(int count, VmServiceUtil vmService) async {
-
+Future<void> _testFixedWeakListRetainWhere(
+    int count, VmServiceUtil vmService) async {
   List<X?>? weakList0 = WeakList<X>();
   final xGcKeys = <X?>[];
   final xKeys = <X>[];
@@ -1264,7 +1251,8 @@ Future<void> _testFixedWeakListRetainWhere(int count, VmServiceUtil vmService) a
     expect(x, equals(xKeys[j]));
   }
 
-  expect(() => weakList.retainWhere((e) => e == X(1000)), throwsUnsupportedError);
+  expect(
+      () => weakList.retainWhere((e) => e == X(1000)), throwsUnsupportedError);
 
   {
     final weakList = WeakList.unmodifiable(weakList0);

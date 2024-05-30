@@ -25,7 +25,8 @@ void main() async {
     final len = expected.length;
     for (int s = 0; s <= len; ++s) {
       for (int e = s; e <= len; ++e) {
-        expect(list.getRange(s, e), equals(expected.getRange(s, e)), reason: '($s, $e)');
+        expect(list.getRange(s, e), equals(expected.getRange(s, e)),
+            reason: '($s, $e)');
       }
     }
     expect(() => list.getRange(len + 1, len + 1), throwsRangeError);
@@ -64,7 +65,8 @@ void main() async {
   }
 
   void expectEvery(WeakList<X> list, List<X?> expected) {
-    expect(list.every((e) => e == null), equals(expected.every((e) => e == null)));
+    expect(
+        list.every((e) => e == null), equals(expected.every((e) => e == null)));
     final len = expected.length;
     for (int s = 0; s < len; ++s) {
       final x = expected[s];
@@ -88,16 +90,17 @@ void main() async {
       }
     }
   }
-  
+
   void expectLastIndexOf(WeakList<X> list, List<X?> expected) {
-      final len = expected.length;
+    final len = expected.length;
     for (int s = 0; s <= len; ++s) {
       expect(list.lastIndexOf(null, s), equals(expected.lastIndexOf(null, s)));
     }
     if (len > 0) {
       final elm = expected[Random().nextInt(len)];
       for (int s = 0; s <= len; ++s) {
-        expect(list.lastIndexOf(elm, s), equals(expected.lastIndexOf(elm, s)), reason: 'start: $s, elm: $elm');
+        expect(list.lastIndexOf(elm, s), equals(expected.lastIndexOf(elm, s)),
+            reason: 'start: $s, elm: $elm');
       }
     }
   }
@@ -116,52 +119,64 @@ void main() async {
       }
     }
   }
-  
+
   void expectLastIndexWhere(WeakList<X> list, List<X?> expected) {
     final len = expected.length;
     for (int s = 0; s <= len; ++s) {
-      expect(list.lastIndexWhere((elm) => elm == null, s), equals(expected.lastIndexWhere((elm) => elm == null, s)));
+      expect(list.lastIndexWhere((elm) => elm == null, s),
+          equals(expected.lastIndexWhere((elm) => elm == null, s)));
     }
     if (len > 0) {
       final elm0 = expected[Random().nextInt(len)];
       for (int s = 0; s <= len; ++s) {
-        expect(list.lastIndexWhere((elm) => elm == elm0, s), equals(expected.lastIndexWhere((elm) => elm == elm0, s)));
+        expect(list.lastIndexWhere((elm) => elm == elm0, s),
+            equals(expected.lastIndexWhere((elm) => elm == elm0, s)));
       }
     }
   }
 
   void expectWhere(WeakList<X> list, List<X?> expected) {
     final len = expected.length;
-    expect(list.where((elm) => elm == null), equals(expected.where((elm) => elm == null)));
+    expect(list.where((elm) => elm == null),
+        equals(expected.where((elm) => elm == null)));
     for (int s = 0; s <= len; ++s) {
-      expect(list.where((elm) => elm != null && elm.value < s), equals(expected.where((elm) => elm != null && elm.value < s)));
+      expect(list.where((elm) => elm != null && elm.value < s),
+          equals(expected.where((elm) => elm != null && elm.value < s)));
     }
   }
-  
+
   void expectFirstWhere(WeakList<X> list, List<X?> expected, X? elseX) {
     final len = expected.length;
-    expect(list.firstWhere((elm) => elm == null, orElse: () => elseX), equals(expected.firstWhere((elm) => elm == null, orElse: () => elseX)));
+    expect(list.firstWhere((elm) => elm == null, orElse: () => elseX),
+        equals(expected.firstWhere((elm) => elm == null, orElse: () => elseX)));
     for (int s = 0; s < len; ++s) {
       final x = expected[s];
-      expect(list.firstWhere((elm) => elm == x, orElse: () => null), equals(expected.firstWhere((elm) => elm == x, orElse: () => null)));
+      expect(list.firstWhere((elm) => elm == x, orElse: () => null),
+          equals(expected.firstWhere((elm) => elm == x, orElse: () => null)));
     }
   }
 
   void expectLastWhere(WeakList<X> list, List<X?> expected, X? elseX) {
     final len = expected.length;
-    expect(list.lastWhere((elm) => elm == null, orElse: () => elseX), equals(expected.lastWhere((elm) => elm == null, orElse: () => elseX)));
+    expect(list.lastWhere((elm) => elm == null, orElse: () => elseX),
+        equals(expected.lastWhere((elm) => elm == null, orElse: () => elseX)));
     for (int s = 0; s < len; ++s) {
       final x = expected[s];
-      expect(list.lastWhere((elm) => elm == x, orElse: () => null), equals(expected.lastWhere((elm) => elm == x, orElse: () => null)));
+      expect(list.lastWhere((elm) => elm == x, orElse: () => null),
+          equals(expected.lastWhere((elm) => elm == x, orElse: () => null)));
     }
   }
 
   void expectSingleWhere(WeakList<X> list, List<X?> expected, X? elseX) {
     final len = expected.length;
-    expect(list.singleWhere((elm) => elm == null, orElse: () => elseX), equals(expected.singleWhere((elm) => elm == null, orElse: () => elseX)));
+    expect(
+        list.singleWhere((elm) => elm == null, orElse: () => elseX),
+        equals(
+            expected.singleWhere((elm) => elm == null, orElse: () => elseX)));
     for (int s = 0; s < len; ++s) {
       final x = expected[s];
-      expect(list.singleWhere((elm) => elm == x, orElse: () => null), equals(expected.singleWhere((elm) => elm == x, orElse: () => null)));
+      expect(list.singleWhere((elm) => elm == x, orElse: () => null),
+          equals(expected.singleWhere((elm) => elm == x, orElse: () => null)));
     }
   }
 
@@ -175,11 +190,13 @@ void main() async {
   void expectSkipWhile(WeakList<X> list, List<X?> expected) {
     final len = expected.length;
     for (int s = 0; s <= len; ++s) {
-      expect(list.skipWhile((elm) => elm == null), equals(expected.skipWhile((elm) => elm == null)));
+      expect(list.skipWhile((elm) => elm == null),
+          equals(expected.skipWhile((elm) => elm == null)));
     }
     if (len > 0) {
       for (int s = 0; s <= len; ++s) {
-        expect(list.skipWhile((elm) => elm == null || elm.value < s), equals(expected.skipWhile((elm) => elm == null || elm.value < s)));
+        expect(list.skipWhile((elm) => elm == null || elm.value < s),
+            equals(expected.skipWhile((elm) => elm == null || elm.value < s)));
       }
     }
   }
@@ -194,11 +211,13 @@ void main() async {
   void expectTakeWhile(WeakList<X> list, List<X?> expected) {
     final len = expected.length;
     for (int s = 0; s <= len; ++s) {
-      expect(list.takeWhile((elm) => elm == null), equals(expected.takeWhile((elm) => elm == null)));
+      expect(list.takeWhile((elm) => elm == null),
+          equals(expected.takeWhile((elm) => elm == null)));
     }
     if (len > 0) {
       for (int s = 0; s <= len; ++s) {
-        expect(list.takeWhile((elm) => elm == null || elm.value < s), equals(expected.takeWhile((elm) => elm == null || elm.value < s)));
+        expect(list.takeWhile((elm) => elm == null || elm.value < s),
+            equals(expected.takeWhile((elm) => elm == null || elm.value < s)));
       }
     }
   }
@@ -232,7 +251,8 @@ void main() async {
       expect(() => list.firstWhere((elm) => elm == X(0)), throwsStateError);
       expectFirstWhere(list, expected, X(0));
 
-      expect(list.fold(0, (int pre, X? elm) => pre + (elm?.value ?? 1)), equals(0));
+      expect(list.fold(0, (int pre, X? elm) => pre + (elm?.value ?? 1)),
+          equals(0));
       expect(list.followedBy(list), orderedEquals(list.followedBy(list)));
       list.forEach(expectEach(expected));
 
@@ -241,15 +261,19 @@ void main() async {
       expectLastIndexOf(list, expected);
       expectIndexWhere(list, expected);
       expectLastIndexWhere(list, expected);
-      
+
       expect(list.join(), equals(expected.join()));
 
       expect(() => list.lastWhere((elm) => elm == null), throwsStateError);
       expect(() => list.lastWhere((elm) => elm == X(0)), throwsStateError);
       expectLastWhere(list, expected, X(0));
 
-      expect(list.map((elm) => elm?.value), orderedEquals(expected.map((elm) => elm?.value)));
-      expect(() => list.reduce((X? pre, X? elm) => X((pre?.value ?? 1) + (elm?.value ?? 1))), throwsStateError);
+      expect(list.map((elm) => elm?.value),
+          orderedEquals(expected.map((elm) => elm?.value)));
+      expect(
+          () => list.reduce(
+              (X? pre, X? elm) => X((pre?.value ?? 1) + (elm?.value ?? 1))),
+          throwsStateError);
 
       expect(() => list.singleWhere((elm) => elm == null), throwsStateError);
       expect(() => list.singleWhere((elm) => elm == X(0)), throwsStateError);
@@ -289,7 +313,8 @@ void main() async {
       expect(() => list.firstWhere((elm) => elm == null), throwsStateError);
       expectFirstWhere(list, expected, X(0));
 
-      expect(list.fold(0, (int pre, X? elm) => pre + (elm?.value ?? 1)), equals(0));
+      expect(list.fold(0, (int pre, X? elm) => pre + (elm?.value ?? 1)),
+          equals(0));
       expect(list.followedBy(list), orderedEquals(list.followedBy(list)));
       list.forEach(expectEach(expected));
 
@@ -304,8 +329,12 @@ void main() async {
       expect(() => list.lastWhere((elm) => elm == null), throwsStateError);
       expectLastWhere(list, expected, X(0));
 
-      expect(list.map((elm) => elm?.value), orderedEquals(expected.map((elm) => elm?.value)));
-      expect(list.reduce((X? pre, X? elm) => X((pre?.value ?? 1) + (elm?.value ?? 1))), equals(X(0)));
+      expect(list.map((elm) => elm?.value),
+          orderedEquals(expected.map((elm) => elm?.value)));
+      expect(
+          list.reduce(
+              (X? pre, X? elm) => X((pre?.value ?? 1) + (elm?.value ?? 1))),
+          equals(X(0)));
 
       expect(() => list.singleWhere((elm) => elm == null), throwsStateError);
       expectSingleWhere(list, expected, X(0));
@@ -359,7 +388,8 @@ void main() async {
       expect(() => list.firstWhere((elm) => elm == X(0)), throwsStateError);
       expectFirstWhere(list, expected, X(0));
 
-      expect(list.fold(0, (int pre, X? elm) => pre + (elm?.value ?? 1)), equals(1));
+      expect(list.fold(0, (int pre, X? elm) => pre + (elm?.value ?? 1)),
+          equals(1));
       expect(list.followedBy(list), orderedEquals(list.followedBy(list)));
       list.forEach(expectEach(expected));
 
@@ -374,8 +404,12 @@ void main() async {
       expect(() => list.lastWhere((elm) => elm == X(0)), throwsStateError);
       expectLastWhere(list, expected, X(0));
 
-      expect(list.map((elm) => elm?.value), orderedEquals(expected.map((elm) => elm?.value)));
-      expect(list.reduce((X? pre, X? elm) => X((pre?.value ?? 1) + (elm?.value ?? 1))), equals(null));
+      expect(list.map((elm) => elm?.value),
+          orderedEquals(expected.map((elm) => elm?.value)));
+      expect(
+          list.reduce(
+              (X? pre, X? elm) => X((pre?.value ?? 1) + (elm?.value ?? 1))),
+          equals(null));
 
       expect(() => list.singleWhere((elm) => elm == X(0)), throwsStateError);
       expectSingleWhere(list, expected, X(0));
@@ -416,7 +450,8 @@ void main() async {
       expect(() => list.firstWhere((elm) => elm == null), throwsStateError);
       expectFirstWhere(list, expected, X(0));
 
-      expect(list.fold(0, (int pre, X? elm) => pre + (elm?.value ?? 1)), equals(0));
+      expect(list.fold(0, (int pre, X? elm) => pre + (elm?.value ?? 1)),
+          equals(0));
       expect(list.followedBy(list), orderedEquals(list.followedBy(list)));
       list.forEach(expectEach(expected));
 
@@ -431,8 +466,12 @@ void main() async {
       expect(() => list.lastWhere((elm) => elm == null), throwsStateError);
       expectLastWhere(list, expected, X(0));
 
-      expect(list.map((elm) => elm?.value), orderedEquals(expected.map((elm) => elm?.value)));
-      expect(list.reduce((X? pre, X? elm) => X((pre?.value ?? 1) + (elm?.value ?? 1))), equals(X(0)));
+      expect(list.map((elm) => elm?.value),
+          orderedEquals(expected.map((elm) => elm?.value)));
+      expect(
+          list.reduce(
+              (X? pre, X? elm) => X((pre?.value ?? 1) + (elm?.value ?? 1))),
+          equals(X(0)));
 
       expect(() => list.singleWhere((elm) => elm == null), throwsStateError);
       expect(() => list.singleWhere((elm) => elm == X(0)), throwsStateError);
@@ -488,7 +527,8 @@ void main() async {
       expect(() => list.firstWhere((elm) => elm == X(0)), throwsStateError);
       expectFirstWhere(list, expected, X(0));
 
-      expect(list.fold(0, (int pre, X? elm) => pre + (elm?.value ?? 1)), equals(2));
+      expect(list.fold(0, (int pre, X? elm) => pre + (elm?.value ?? 1)),
+          equals(2));
       expect(list.followedBy(list), orderedEquals(list.followedBy(list)));
       list.forEach(expectEach(expected));
 
@@ -503,8 +543,12 @@ void main() async {
       expect(() => list.lastWhere((elm) => elm == X(0)), throwsStateError);
       expectLastWhere(list, expected, X(0));
 
-      expect(list.map((elm) => elm?.value), orderedEquals(expected.map((elm) => elm?.value)));
-      expect(list.reduce((X? pre, X? elm) => X((pre?.value ?? 1) + (elm?.value ?? 1))), equals(X(2)));
+      expect(list.map((elm) => elm?.value),
+          orderedEquals(expected.map((elm) => elm?.value)));
+      expect(
+          list.reduce(
+              (X? pre, X? elm) => X((pre?.value ?? 1) + (elm?.value ?? 1))),
+          equals(X(2)));
 
       expect(() => list.singleWhere((elm) => elm == null), throwsStateError);
       expect(() => list.singleWhere((elm) => elm == X(0)), throwsStateError);
@@ -587,10 +631,11 @@ void main() async {
 
       expect(list.map((elm) => elm?.value),
           orderedEquals(expected.map((elm) => elm?.value)));
-      expect(list.reduce((X? pre, X? elm) =>
-          X((pre?.value ?? 1) + (elm?.value ?? 1))), equals(
-          expected.reduce((X? pre, X? elm) =>
-              X((pre?.value ?? 1) + (elm?.value ?? 1)))));
+      expect(
+          list.reduce(
+              (X? pre, X? elm) => X((pre?.value ?? 1) + (elm?.value ?? 1))),
+          equals(expected.reduce(
+              (X? pre, X? elm) => X((pre?.value ?? 1) + (elm?.value ?? 1)))));
 
       expect(() => list.singleWhere((elm) => elm == null), throwsStateError);
       expectSingleWhere(list, expected, X(0));
@@ -604,7 +649,7 @@ void main() async {
       expectWhere(list, expected);
     });
 
-    test ('null even and wait GC', () async {
+    test('null even and wait GC', () async {
       // null even and wait for GC
       for (var j = 0; j < strongList.length; j += 2) {
         strongList[j] = null;
@@ -633,7 +678,7 @@ void main() async {
       // print('even @626, $list');
     });
 
-    test ('null odd and wait GC', () async {
+    test('null odd and wait GC', () async {
       // null odd and wait for GC
       for (var j = 1; j < strongList.length; j += 2) {
         strongList[j] = null;
@@ -662,7 +707,7 @@ void main() async {
       // print('odd @655, $list');
     });
 
-    test ('null triple and wait GC', () async {
+    test('null triple and wait GC', () async {
       // null triple and wait for GC
       for (var j = 2; j < strongList.length; j += 3) {
         strongList[j] = null;
@@ -788,8 +833,10 @@ void main() async {
 
       expectFirstWhere(list, expected, X(0));
 
-      expect(list.fold(0, (int pre, X? elm) => pre + (elm?.value ?? 1)), equals(
-          expected.fold<int>(0, (int pre, X? elm) => pre + (elm?.value ?? 1))));
+      expect(
+          list.fold(0, (int pre, X? elm) => pre + (elm?.value ?? 1)),
+          equals(expected.fold<int>(
+              0, (int pre, X? elm) => pre + (elm?.value ?? 1))));
       expect(list.followedBy(list), orderedEquals(list.followedBy(list)));
       list.forEach(expectEach(expected));
 
@@ -805,10 +852,11 @@ void main() async {
 
       expect(list.map((elm) => elm?.value),
           orderedEquals(expected.map((elm) => elm?.value)));
-      expect(list.reduce((X? pre, X? elm) =>
-          X((pre?.value ?? 1) + (elm?.value ?? 1))), equals(
-          expected.reduce((X? pre, X? elm) =>
-              X((pre?.value ?? 1) + (elm?.value ?? 1)))));
+      expect(
+          list.reduce(
+              (X? pre, X? elm) => X((pre?.value ?? 1) + (elm?.value ?? 1))),
+          equals(expected.reduce(
+              (X? pre, X? elm) => X((pre?.value ?? 1) + (elm?.value ?? 1)))));
 
       expect(() => list.singleWhere((elm) => elm == null), throwsStateError);
 
@@ -834,7 +882,6 @@ void main() async {
         expect(list[j], equals(expected[j]));
       }
       list.validElementCount();
-
     });
 
     test('[evenJ]= null then ...', () async {
@@ -851,7 +898,6 @@ void main() async {
       expect(list, isNotEmpty);
       expect(list.length, equals(count));
       expect(list, orderedEquals(expected), reason: '$list');
-
 
       // change length
       list.length = count ~/ 2;
@@ -880,8 +926,10 @@ void main() async {
       expect(() => list.firstWhere((elm) => elm == X(0)), throwsStateError);
       expectFirstWhere(list, expected, X(0));
 
-      expect(list.fold(0, (int pre, X? elm) => pre + (elm?.value ?? 1)), equals(
-          expected.fold<int>(0, (int pre, X? elm) => pre + (elm?.value ?? 1))));
+      expect(
+          list.fold(0, (int pre, X? elm) => pre + (elm?.value ?? 1)),
+          equals(expected.fold<int>(
+              0, (int pre, X? elm) => pre + (elm?.value ?? 1))));
       expect(list.followedBy(list), orderedEquals(list.followedBy(list)));
       list.forEach(expectEach(expected));
 
@@ -898,10 +946,11 @@ void main() async {
 
       expect(list.map((elm) => elm?.value),
           orderedEquals(expected.map((elm) => elm?.value)));
-      expect(list.reduce((X? pre, X? elm) =>
-          X((pre?.value ?? 1) + (elm?.value ?? 1))), equals(
-          expected.reduce((X? pre, X? elm) =>
-              X((pre?.value ?? 1) + (elm?.value ?? 1)))));
+      expect(
+          list.reduce(
+              (X? pre, X? elm) => X((pre?.value ?? 1) + (elm?.value ?? 1))),
+          equals(expected.reduce(
+              (X? pre, X? elm) => X((pre?.value ?? 1) + (elm?.value ?? 1)))));
 
       expect(() => list.singleWhere((elm) => elm == null), throwsStateError);
       expect(() => list.singleWhere((elm) => elm == X(0)), throwsStateError);
@@ -954,7 +1003,7 @@ void main() async {
 
     setUp(() => create());
 
-    test ('basic', () async {
+    test('basic', () async {
       expect(list, orderedEquals(expected), reason: '$list');
 
       // nullify and wait GC
@@ -1100,7 +1149,7 @@ void main() async {
       for (int j = 0; j < expected.length; ++j) {
         if (j.isOdd) {
           strongList[j] = null;
-          expected[j] =null;
+          expected[j] = null;
         }
       }
 
@@ -1159,7 +1208,8 @@ void main() async {
       final len = expected.length;
       for (int j = 0; j < len; ++j) {
         final elm = expected[Random().nextInt(expected.length)];
-        expect(list.remove(elm), equals(expected.remove(elm)), reason: 'j: $j, elm: $elm');
+        expect(list.remove(elm), equals(expected.remove(elm)),
+            reason: 'j: $j, elm: $elm');
         list.validElementCount();
       }
     });
@@ -1170,8 +1220,10 @@ void main() async {
       for (int j = 0; j < len; ++j) {
         final idx = Random().nextInt(expected.length);
         history.add(idx);
-        expect(list.removeAt(idx), equals(expected.removeAt(idx)), reason: 'idxes: $history\nexpected: $expected\n    list: $list');
-        expect(list, orderedEquals(expected), reason: 'idxes: $history\nexpected: $expected\n    list: $list');
+        expect(list.removeAt(idx), equals(expected.removeAt(idx)),
+            reason: 'idxes: $history\nexpected: $expected\n    list: $list');
+        expect(list, orderedEquals(expected),
+            reason: 'idxes: $history\nexpected: $expected\n    list: $list');
         list.validElementCount();
       }
     });
@@ -1179,8 +1231,10 @@ void main() async {
     test('removeLast()', () {
       final len = expected.length;
       for (int j = len; --j >= 0;) {
-        expect(list.removeLast(), equals(expected.removeLast()), reason: 'idx: $j\nexpected: $expected\n    list: $list');
-        expect(list, orderedEquals(expected), reason: 'idx: $j\nexpected: $expected\n    list: $list');
+        expect(list.removeLast(), equals(expected.removeLast()),
+            reason: 'idx: $j\nexpected: $expected\n    list: $list');
+        expect(list, orderedEquals(expected),
+            reason: 'idx: $j\nexpected: $expected\n    list: $list');
         list.validElementCount();
       }
     });
@@ -1238,7 +1292,8 @@ void main() async {
     test('setAll()', () {
       final len = expected.length;
       expect(() => list.setAll(len, []), throwsRangeError);
-      expect(() => list.setAll(len - 1, [X(count), X(count)]), throwsStateError);
+      expect(
+          () => list.setAll(len - 1, [X(count), X(count)]), throwsStateError);
       for (int s = 0; s < len; ++s) {
         for (int e = s; e <= len; ++e) {
           final contents = <X?>[];
@@ -1258,7 +1313,8 @@ void main() async {
       final len = expected.length;
       expect(() => list.setRange(len, len + 1, []), throwsRangeError);
       expect(() => list.setRange(len - 2, len, [null]), throwsStateError);
-      expect(() => list.setRange(len - 2, len, [null, null], 1), throwsStateError);
+      expect(
+          () => list.setRange(len - 2, len, [null, null], 1), throwsStateError);
       for (int s = 0; s < len; ++s) {
         for (int e = s; e <= len; ++e) {
           final contents = <X?>[];
@@ -1305,9 +1361,8 @@ void main() async {
 
     setUp(() => create());
 
-    test ('basic', () {
+    test('basic', () {
       expect(list, orderedEquals(expected), reason: '$list');
-
     });
 
     test('add()', () {
@@ -1411,7 +1466,8 @@ void main() async {
       final len = expected.length;
       for (int j = 0; j < len; ++j) {
         final elm = expected[Random().nextInt(expected.length)];
-        expect(list.remove(elm), equals(expected.remove(elm)), reason: 'j: $j, elm: $elm');
+        expect(list.remove(elm), equals(expected.remove(elm)),
+            reason: 'j: $j, elm: $elm');
         list.validElementCount();
       }
     });
@@ -1422,8 +1478,10 @@ void main() async {
       for (int j = 0; j < len; ++j) {
         final idx = Random().nextInt(expected.length);
         history.add(idx);
-        expect(list.removeAt(idx), equals(expected.removeAt(idx)), reason: 'idxes: $history\nexpected: $expected\n    list: $list');
-        expect(list, orderedEquals(expected), reason: 'idxes: $history\nexpected: $expected\n    list: $list');
+        expect(list.removeAt(idx), equals(expected.removeAt(idx)),
+            reason: 'idxes: $history\nexpected: $expected\n    list: $list');
+        expect(list, orderedEquals(expected),
+            reason: 'idxes: $history\nexpected: $expected\n    list: $list');
         list.validElementCount();
       }
     });
@@ -1431,8 +1489,10 @@ void main() async {
     test('removeLast()', () {
       final len = expected.length;
       for (int j = len; --j >= 0;) {
-        expect(list.removeLast(), equals(expected.removeLast()), reason: 'idx: $j\nexpected: $expected\n    list: $list');
-        expect(list, orderedEquals(expected), reason: 'idx: $j\nexpected: $expected\n    list: $list');
+        expect(list.removeLast(), equals(expected.removeLast()),
+            reason: 'idx: $j\nexpected: $expected\n    list: $list');
+        expect(list, orderedEquals(expected),
+            reason: 'idx: $j\nexpected: $expected\n    list: $list');
         list.validElementCount();
       }
     });
@@ -1495,7 +1555,8 @@ void main() async {
     test('setAll()', () {
       final len = expected.length;
       expect(() => list.setAll(len, []), throwsRangeError);
-      expect(() => list.setAll(len - 1, [X(count), X(count)]), throwsStateError);
+      expect(
+          () => list.setAll(len - 1, [X(count), X(count)]), throwsStateError);
       for (int s = 0; s < len; ++s) {
         for (int e = s; e <= len; ++e) {
           final contents = <X?>[];
@@ -1520,7 +1581,8 @@ void main() async {
       final len = expected.length;
       expect(() => list.setRange(len, len + 1, []), throwsRangeError);
       expect(() => list.setRange(len - 2, len, [null]), throwsStateError);
-      expect(() => list.setRange(len - 2, len, [null, null], 1), throwsStateError);
+      expect(
+          () => list.setRange(len - 2, len, [null, null], 1), throwsStateError);
       for (int s = 0; s < len; ++s) {
         for (int e = s; e <= len; ++e) {
           final contents = <X?>[];
@@ -1562,7 +1624,7 @@ void main() async {
 
     setUp(() => create());
 
-    test ('basic', () {
+    test('basic', () {
       expect(list, orderedEquals(expected), reason: '$list');
       expect(list.first, equals(expected.first));
       expect(list.last, equals(expected.last));
@@ -1577,8 +1639,10 @@ void main() async {
       expect(() => list.firstWhere((elm) => elm == X(0)), throwsStateError);
       expectFirstWhere(list, expected, X(0));
 
-      expect(list.fold(0, (int pre, X? elm) => pre + (elm?.value ?? 1)), equals(
-          expected.fold<int>(0, (int pre, X? elm) => pre + (elm?.value ?? 1))));
+      expect(
+          list.fold(0, (int pre, X? elm) => pre + (elm?.value ?? 1)),
+          equals(expected.fold<int>(
+              0, (int pre, X? elm) => pre + (elm?.value ?? 1))));
       expect(list.followedBy(list), orderedEquals(list.followedBy(list)));
       list.forEach(expectEach(expected));
 
@@ -1595,10 +1659,11 @@ void main() async {
 
       expect(list.map((elm) => elm?.value),
           orderedEquals(expected.map((elm) => elm?.value)));
-      expect(list.reduce((X? pre, X? elm) =>
-          X((pre?.value ?? 1) + (elm?.value ?? 1))), equals(
-          expected.reduce((X? pre, X? elm) =>
-              X((pre?.value ?? 1) + (elm?.value ?? 1)))));
+      expect(
+          list.reduce(
+              (X? pre, X? elm) => X((pre?.value ?? 1) + (elm?.value ?? 1))),
+          equals(expected.reduce(
+              (X? pre, X? elm) => X((pre?.value ?? 1) + (elm?.value ?? 1)))));
 
       expect(() => list.singleWhere((elm) => elm == null), throwsStateError);
       expect(() => list.singleWhere((elm) => elm == X(0)), throwsStateError);
@@ -1708,7 +1773,8 @@ void main() async {
       final len = expected.length;
       for (int j = 0; j < len; ++j) {
         final elm = expected[Random().nextInt(expected.length)];
-        expect(list.remove(elm), equals(expected.remove(elm)), reason: 'j: $j, elm: $elm');
+        expect(list.remove(elm), equals(expected.remove(elm)),
+            reason: 'j: $j, elm: $elm');
         list.validElementCount();
       }
     });
@@ -1719,8 +1785,10 @@ void main() async {
       for (int j = 0; j < len; ++j) {
         final idx = Random().nextInt(expected.length);
         history.add(idx);
-        expect(list.removeAt(idx), equals(expected.removeAt(idx)), reason: 'idxes: $history\nexpected: $expected\n    list: $list');
-        expect(list, orderedEquals(expected), reason: 'idxes: $history\nexpected: $expected\n    list: $list');
+        expect(list.removeAt(idx), equals(expected.removeAt(idx)),
+            reason: 'idxes: $history\nexpected: $expected\n    list: $list');
+        expect(list, orderedEquals(expected),
+            reason: 'idxes: $history\nexpected: $expected\n    list: $list');
         list.validElementCount();
       }
     });
@@ -1728,8 +1796,10 @@ void main() async {
     test('removeLast()', () {
       final len = expected.length;
       for (int j = len; --j >= 0;) {
-        expect(list.removeLast(), equals(expected.removeLast()), reason: 'idx: $j\nexpected: $expected\n    list: $list');
-        expect(list, orderedEquals(expected), reason: 'idx: $j\nexpected: $expected\n    list: $list');
+        expect(list.removeLast(), equals(expected.removeLast()),
+            reason: 'idx: $j\nexpected: $expected\n    list: $list');
+        expect(list, orderedEquals(expected),
+            reason: 'idx: $j\nexpected: $expected\n    list: $list');
         list.validElementCount();
       }
     });
@@ -1780,7 +1850,7 @@ void main() async {
           expect(list, orderedEquals(expected), reason: '($s, $e)');
           try {
             list.validElementCount();
-          } catch(ex) {
+          } catch (ex) {
             print('s:$s, e:$e');
             rethrow;
           }
@@ -1792,7 +1862,8 @@ void main() async {
     test('setAll()', () {
       final len = expected.length;
       expect(() => list.setAll(len, []), throwsRangeError);
-      expect(() => list.setAll(len - 1, [X(count), X(count)]), throwsStateError);
+      expect(
+          () => list.setAll(len - 1, [X(count), X(count)]), throwsStateError);
       for (int s = 0; s < len; ++s) {
         for (int e = s; e <= len; ++e) {
           final contents = <X?>[];
@@ -1812,7 +1883,8 @@ void main() async {
       final len = expected.length;
       expect(() => list.setRange(len, len + 1, []), throwsRangeError);
       expect(() => list.setRange(len - 2, len, [null]), throwsStateError);
-      expect(() => list.setRange(len - 2, len, [null, null], 1), throwsStateError);
+      expect(
+          () => list.setRange(len - 2, len, [null, null], 1), throwsStateError);
       for (int s = 0; s < len; ++s) {
         for (int e = s; e <= len; ++e) {
           final contents = <X?>[];
@@ -1838,11 +1910,9 @@ class X {
   int get hashCode => value.hashCode;
 
   @override
-  bool operator==(Object other)
-  => identical(this, other)
-      || (other is X && value == other.value);
+  bool operator ==(Object other) =>
+      identical(this, other) || (other is X && value == other.value);
 
   @override
   String toString() => 'X$value';
 }
-
