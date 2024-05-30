@@ -6,8 +6,8 @@ import 'dart:math' show min, max;
 const maxInt = 9007199254740992; // 2^53
 const minInt = -9007199254740992; // -2^53
 
-typedef ComparatorKV<K extends Object, V extends Object>
-= int Function(K key, V value);
+typedef ComparatorKV<K extends Object, V extends Object> = int Function(
+    K key, V value);
 
 /// Binary search a [sorted] WeakReference target list with a [key] and
 /// specified comparator.
@@ -16,9 +16,11 @@ int binarySearchWeakReferences<K extends Object, V extends Object>(
     K key,
     ComparatorKV<K, V> comparator,
     Set<int> toRemove,
-    {int? minIndex, int? maxIndex}) {
+    {int? minIndex,
+    int? maxIndex}) {
   var low = minIndex == null ? 0 : max(0, minIndex);
-  var hgh = maxIndex == null ? sorted.length - 1 : min(sorted.length - 1, maxIndex);
+  var hgh =
+      maxIndex == null ? sorted.length - 1 : min(sorted.length - 1, maxIndex);
   while (low <= hgh) {
     final mid = (low + hgh) ~/ 2;
     final val = sorted[mid].target;
@@ -47,8 +49,10 @@ int binarySearchWeakReferences<K extends Object, V extends Object>(
 abstract class IterableElementError {
   /// Error if no element.
   static StateError noElement() => StateError("No element");
+
   /// Error if too many element.
   static StateError tooMany() => StateError("Too many elements");
+
   /// Error if too few element.
   static StateError tooFew() => StateError("Too few elements");
 }

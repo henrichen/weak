@@ -21,25 +21,58 @@ import 'weak_hash_map.dart';
 class WeakHashSet<E extends Object> with SetMixin<E> {
   final WeakHashMap<E, dynamic> _weakHashMap;
 
-  WeakHashSet({
-    bool Function(E, E)? equals,
-    int Function(E)? hashCode,
-    bool Function(dynamic)? isValidKey})
+  /// Create a hash set using the provided equals as equality.
+  ///
+  /// The provided [equals] must define a stable equivalence relation, and
+  /// [hashCode] must be consistent with [equals].
+  ///
+  /// If [equals] or [hashCode] are omitted, the set uses the elements'
+  /// intrinsic [Object.==] and [Object.hashCode].
+  ///
+  /// If you supply one of [equals] and [hashCode], you should generally also
+  /// supply the other.
+  ///
+  /// Some [equals] or [hashCode] functions might not work for all objects. If
+  /// [isValidKey] is supplied, it's used to check a potential element which is
+  /// not necessarily an instance of [E], like the argument to contains which is
+  /// typed as Object?. If [isValidKey] returns false, for an object, the
+  /// [equals] and [hashCode] functions are not called, and no key equal to
+  /// that object is assumed to be in the map. The [isValidKey] function
+  /// defaults to just testing if the object is an instance of [E]
+  WeakHashSet(
+      {bool Function(E, E)? equals,
+      int Function(E)? hashCode,
+      bool Function(dynamic)? isValidKey})
       : _weakHashMap = WeakHashMap<E, dynamic>(
-          equals: equals,
-          hashCode: hashCode,
-          isValidKey: isValidKey);
+            equals: equals, hashCode: hashCode, isValidKey: isValidKey);
 
+  /// Creates an unordered identity-based set.
   factory WeakHashSet.identity() =>
       WeakHashSet(equals: identical, hashCode: identityHashCode);
 
+  /// Create a hash set containing all [elements].
+  ///
+  /// Creates a hash set as by WeakHashSet<E>() and adds all given [elements]
+  /// to the set. The [elements] are added in order. If [elements] contains
+  /// two entries that are equal, but not identical, then the first one is the
+  /// one in the resulting set.
+  ///
+  /// All the [elements] should be instances of [E]. The elements iterable
+  /// itself may have any element type, so this constructor can be used to
+  /// down-cast a Set.
   WeakHashSet.from(Iterable<dynamic> elements)
-      : _weakHashMap = WeakHashMap<E, dynamic>.fromIterable(
-          elements, key: (e) => e, value: (e) => null);
+      : _weakHashMap = WeakHashMap<E, dynamic>.fromIterable(elements,
+            key: (e) => e, value: (e) => null);
 
+  /// Create a hash set containing all [elements].
+  ///
+  /// Creates a hash set as by WeakHashSet<E>() and adds all given [elements]
+  /// to the set. The [elements] are added in order. If [elements] contains
+  /// two entries that are equal, but not identical, then the first one is the
+  /// one in the resulting set.
   WeakHashSet.of(Iterable<E> elements)
-      : _weakHashMap = WeakHashMap<E, dynamic>.fromIterable(
-          elements, key: (e) => e, value: (e) => null);
+      : _weakHashMap = WeakHashMap<E, dynamic>.fromIterable(elements,
+            key: (e) => e, value: (e) => null);
 
   @override
   bool add(E value) {

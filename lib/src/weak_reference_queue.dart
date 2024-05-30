@@ -25,7 +25,7 @@
 /// weakReferenceQueue.detach(weakRef);
 /// ...
 /// ```
-/// 
+///
 /// Use [poll] method to retrieve payload whose associated target was garbage
 /// collected.
 /// ```
@@ -67,7 +67,8 @@ class WeakReferenceQueue<E extends Object, T extends Object> {
     final target = weakReference.target;
     if (target != null) {
       _weakReferences[weakReference] = payload;
-      _finalizer.attach(target, _Token(_list, weakReference), detach: weakReference);
+      _finalizer.attach(target, _Token(_list, weakReference),
+          detach: weakReference);
     }
   }
 

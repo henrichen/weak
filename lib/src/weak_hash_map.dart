@@ -31,9 +31,9 @@ class WeakHashMap<K extends Object, V> with MapMixin<K, V> {
 
   /// The load factor used when none specified in constructor.
   static const _defaultLoadFactor = 0.75;
-  
+
   /// The entry table, resized as necessary; length MUST be a power of two.
-  List<_Entry<K,V>?> _table = <_Entry<K,V>?>[];
+  List<_Entry<K, V>?> _table = <_Entry<K, V>?>[];
 
   /// The next threshold size to resize (capacity * load factor).
   int _threshold = 0;
@@ -78,13 +78,12 @@ class WeakHashMap<K extends Object, V> with MapMixin<K, V> {
   /// Note the internal hash table with the optional [initCapacity](default
   /// to 16) and optional [loadFactor](default to 0.75). Adjusting these two
   /// arguments to fine tune memory usage and initialization performance.
-  WeakHashMap({
-    bool Function(K, K)? equals,
-    int Function(K)? hashCode,
-    bool Function(dynamic)? isValidKey,
-    int initCapacity = _defaultCapacity,
-    double loadFactor = _defaultLoadFactor}) {
-
+  WeakHashMap(
+      {bool Function(K, K)? equals,
+      int Function(K)? hashCode,
+      bool Function(dynamic)? isValidKey,
+      int initCapacity = _defaultCapacity,
+      double loadFactor = _defaultLoadFactor}) {
     _queue = WeakReferenceQueue(
         'WeakHashMap-${identityHashCode(this).toRadixString(16)}');
     _keyEquals = equals ?? _defaultKeyEquals;
@@ -94,10 +93,10 @@ class WeakHashMap<K extends Object, V> with MapMixin<K, V> {
     final capacity = initCapacity == _defaultCapacity
         ? _defaultCapacity
         : initCapacity > _maxCapacity
-        ? _maxCapacity
-        : initCapacity <= 0
-        ? _defaultCapacity
-        : pow(2, (initCapacity - 1).bitLength).toInt();
+            ? _maxCapacity
+            : initCapacity <= 0
+                ? _defaultCapacity
+                : pow(2, (initCapacity - 1).bitLength).toInt();
 
     if (loadFactor <= 0 || loadFactor > 1) {
       loadFactor = _defaultLoadFactor;
@@ -112,16 +111,16 @@ class WeakHashMap<K extends Object, V> with MapMixin<K, V> {
   /// [entries] have the same key and value, the 1st entry is preserved.
   /// If multiple [entries] have the same key, the 1st key is preserved
   /// and value overwritten.
-  factory WeakHashMap.fromEntries(Iterable<MapEntry<K,V>> entries) =>
-      WeakHashMap<K,V>()..addEntries(entries);
+  factory WeakHashMap.fromEntries(Iterable<MapEntry<K, V>> entries) =>
+      WeakHashMap<K, V>()..addEntries(entries);
 
   /// Creates a [WeakHashMap] where the [key]s and [value]s are computed from
   /// the [iterable] elements.
-  factory WeakHashMap.fromIterable(Iterable iterable, {
-    K Function(dynamic element)? key, V Function(dynamic element)? value}) {
+  factory WeakHashMap.fromIterable(Iterable iterable,
+      {K Function(dynamic element)? key, V Function(dynamic element)? value}) {
     final key0 = key ?? _identityFunc<K>;
     final val0 = value ?? _identityFunc<V>;
-    final map = WeakHashMap<K,V>();
+    final map = WeakHashMap<K, V>();
     for (final e in iterable) {
       map[key0(e)] = val0(e);
     }
@@ -131,16 +130,20 @@ class WeakHashMap<K extends Object, V> with MapMixin<K, V> {
   /// Creates a [WeakHashMap] per the provided [keys] and [values] iterables.
   /// It is an error if [keys] and [values] do not have the same length.
   factory WeakHashMap.fromIterables(Iterable<K> keys, Iterable<V> values) {
-    final map = WeakHashMap<K,V>();
+    final map = WeakHashMap<K, V>();
     final itK = keys.iterator;
     final itV = values.iterator;
     while (itK.moveNext()) {
-      if (!itV.moveNext()) throw ArgumentError('Iterables do not have same length.');
+      if (!itV.moveNext()) {
+        throw ArgumentError('Iterables do not have same length.');
+      }
       final k = itK.current;
       final v = itV.current;
       map[k] = v;
     }
-    if (itV.moveNext()) throw ArgumentError('Iterables do not have same length.');
+    if (itV.moveNext()) {
+      throw ArgumentError('Iterables do not have same length.');
+    }
     return map;
   }
 
@@ -157,7 +160,7 @@ class WeakHashMap<K extends Object, V> with MapMixin<K, V> {
 
   /// Create a [WeakHashMap] per the provided [other] map of the same [K] type
   /// keys and [V] type values.
-  factory WeakHashMap.of(Map<K,V> other) => WeakHashMap()..addAll(other);
+  factory WeakHashMap.of(Map<K, V> other) => WeakHashMap()..addAll(other);
 
   /// Create an unordered identity-based map. Keys in this map are considered
   /// equal only if they are the same object.
@@ -214,7 +217,7 @@ class WeakHashMap<K extends Object, V> with MapMixin<K, V> {
   void addAll(Map<K, V> other) => addEntries(other.entries);
 
   @override
-  void addEntries(Iterable<MapEntry<K,V>> newEntries) {
+  void addEntries(Iterable<MapEntry<K, V>> newEntries) {
     final numKeysToBeAdded = newEntries.length;
     if (numKeysToBeAdded == 0) return;
 
@@ -272,7 +275,7 @@ class WeakHashMap<K extends Object, V> with MapMixin<K, V> {
     _queue.clear();
 
     _modCount++;
-    _table = <_Entry<K,V>?>[];
+    _table = <_Entry<K, V>?>[];
     _length = 0;
   }
 
@@ -300,33 +303,35 @@ class WeakHashMap<K extends Object, V> with MapMixin<K, V> {
 
   /// Returns the entry associated with the [key]; return null
   /// if no mapping for the [key].
-  _Entry<K,V>? _getEntry(Object? key) {
+  _Entry<K, V>? _getEntry(Object? key) {
     if (!_keyValid(key)) return null;
     final keyHashCode = _keyHash(key as K);
     final h = _hash(keyHashCode);
     final tb = _getTable();
     final index = _indexFor(h, tb.length);
     var curr = tb[index];
-    while (curr != null && (curr._hash != h || !_entryKeyEquals(key, curr._keyTarget))) {
+    while (curr != null &&
+        (curr._hash != h || !_entryKeyEquals(key, curr._keyTarget))) {
       curr = curr.next;
     }
     return curr;
   }
 
   /// Create a new hash table; [length] must be in power of two
-  List<_Entry<K,V>?> _newTable(int length)
-  => <_Entry<K,V>?>[]..length = length;
+  List<_Entry<K, V>?> _newTable(int length) =>
+      <_Entry<K, V>?>[]..length = length;
 
   /// Purge GCed entries
   void _purgeGcEntries() {
     for (var entry = _queue.poll(); entry != null; entry = _queue.poll()) {
       var j = _indexFor(entry._hash, _table.length);
 
-      _Entry<K,V>? prev;
+      _Entry<K, V>? prev;
       var curr = _table[j];
       while (curr != null) {
         final next = curr.next;
-        if (identical(curr, entry)) { // use identical
+        if (identical(curr, entry)) {
+          // use identical
           // found GCed entry
           if (prev == null) {
             // first in slot
@@ -345,13 +350,13 @@ class WeakHashMap<K extends Object, V> with MapMixin<K, V> {
   }
 
   /// Returns the table after purge GCed entries.
-  List<_Entry<K,V>?> _getTable() {
+  List<_Entry<K, V>?> _getTable() {
     _purgeGcEntries();
     return _table;
   }
 
   /// Transfers all entries from src to dest tables
-  void _transfer(List<_Entry<K,V>?> src, List<_Entry<K,V>?> dest) {
+  void _transfer(List<_Entry<K, V>?> src, List<_Entry<K, V>?> dest) {
     for (var j = 0; j < src.length; ++j) {
       var curr = src[j];
       src[j] = null;
@@ -403,6 +408,7 @@ class WeakHashMap<K extends Object, V> with MapMixin<K, V> {
     if (b == null) return false;
     return _keyEquals(a, b);
   }
+
   bool _defaultKeyEquals(K a, K b) => a == b;
   int _defaultKeyHash(K k) => k.hashCode;
   bool _defaultKeyValid(dynamic k) => k is K;
@@ -410,7 +416,7 @@ class WeakHashMap<K extends Object, V> with MapMixin<K, V> {
 
 /// Returns table slot index for hashCode [h] and table [capacity]
 /// (must be power of 2).
-int _indexFor(int h, int capacity) => h & (capacity-1);
+int _indexFor(int h, int capacity) => h & (capacity - 1);
 
 /// Ensures hashCodes [h] that differ only by constant multiples at each bit
 /// position have a bounded number of collisions (approximately 8 at default
@@ -425,7 +431,7 @@ class _Entry<K extends Object, V> {
   final int _hash;
   final WeakReference<K> _keyWeakRef;
   V value;
-  _Entry<K,V>? next;
+  _Entry<K, V>? next;
 
   // Constructor
   _Entry(K key, this.value, this._hash, this.next)
@@ -442,28 +448,25 @@ class _Entry<K extends Object, V> {
     }
 
     if (other is _Entry<K, V>) {
-      return _keyTarget == other._keyTarget
-          && value == other.value;
+      return _keyTarget == other._keyTarget && value == other.value;
     }
 
     if (other is MapEntry<K, V>) {
-      return _keyTarget == other.key
-          && value == other.value;
+      return _keyTarget == other.key && value == other.value;
     }
     return false;
   }
 
   @override
-  int get hashCode
-  => (_keyTarget == null ? 0 : _keyTarget.hashCode) ^ value.hashCode;
+  int get hashCode =>
+      (_keyTarget == null ? 0 : _keyTarget.hashCode) ^ value.hashCode;
 
   @override
-  String toString()
-  => '$_keyTarget: $value; $_hash';
+  String toString() => '$_keyTarget: $value; $_hash';
 }
 
 /// Entries for WeakHashMap
-class _EntryIterable<K extends Object, V> with IterableMixin<MapEntry<K,V>> {
+class _EntryIterable<K extends Object, V> with IterableMixin<MapEntry<K, V>> {
   final WeakHashMap<K, V> _owner;
 
   _EntryIterable(this._owner);
@@ -497,13 +500,13 @@ abstract class _WeakMapIterator<K extends Object, V> {
   int _index = -1;
 
   /// current entry
-  _Entry<K,V>? _entry;
+  _Entry<K, V>? _entry;
 
   /// current key
   K? _key;
 
-  final WeakHashMap<K,V> _owner;
-  final List<_Entry<K,V>?> _table;
+  final WeakHashMap<K, V> _owner;
+  final List<_Entry<K, V>?> _table;
   final int _expectedModCount;
 
   _WeakMapIterator(this._owner)
@@ -512,8 +515,8 @@ abstract class _WeakMapIterator<K extends Object, V> {
     _index = _owner.isEmpty ? 0 : _table.length;
   }
 
-  _Entry<K, V>? _nextEntryInSlot(_Entry<K,V> entry) {
-    _Entry<K,V>? curr = entry;
+  _Entry<K, V>? _nextEntryInSlot(_Entry<K, V> entry) {
+    _Entry<K, V>? curr = entry;
     do {
       curr = curr!.next;
     } while (curr != null && curr._keyTarget == null);
@@ -554,7 +557,8 @@ abstract class _WeakMapIterator<K extends Object, V> {
   }
 }
 
-class _EntryIterator<K extends Object, V> extends _WeakMapIterator<K, V> implements Iterator<MapEntry<K,V>> {
+class _EntryIterator<K extends Object, V> extends _WeakMapIterator<K, V>
+    implements Iterator<MapEntry<K, V>> {
   _EntryIterator(super.owner);
 
   @override
@@ -564,7 +568,8 @@ class _EntryIterator<K extends Object, V> extends _WeakMapIterator<K, V> impleme
   MapEntry<K, V> get current => MapEntry(_entry!.key, _entry!.value);
 }
 
-class _KeyIterator<K extends Object, V> extends _WeakMapIterator<K, V> implements Iterator<K> {
+class _KeyIterator<K extends Object, V> extends _WeakMapIterator<K, V>
+    implements Iterator<K> {
   _KeyIterator(super.owner);
 
   @override
@@ -574,7 +579,8 @@ class _KeyIterator<K extends Object, V> extends _WeakMapIterator<K, V> implement
   K get current => _key!;
 }
 
-class _ValueIterator<K extends Object, V> extends _WeakMapIterator<K, V> implements Iterator<V> {
+class _ValueIterator<K extends Object, V> extends _WeakMapIterator<K, V>
+    implements Iterator<V> {
   _ValueIterator(super.owner);
 
   @override
@@ -586,5 +592,5 @@ class _ValueIterator<K extends Object, V> extends _WeakMapIterator<K, V> impleme
 
 T _identityFunc<T>(T e) => e;
 
-K? getTargetKey<K extends Object,V>(WeakHashMap<K, V> map, Object? key) =>
+K? getTargetKey<K extends Object, V>(WeakHashMap<K, V> map, Object? key) =>
     map._getEntry(key)?.key;
