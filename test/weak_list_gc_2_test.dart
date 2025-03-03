@@ -1,7 +1,7 @@
 // https://github.com/henrichen/weak
 // utils.dart - created by Henri Chen<chenhenri@gmail.com>
 // Copyright (C) 2024 Henri Chen<chenhenri@gmail.com>. All Rights Reserved.
-library weak_list_gc_2_test;
+library;
 
 import 'dart:math';
 import 'package:test/test.dart';

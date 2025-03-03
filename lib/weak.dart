@@ -7,7 +7,7 @@
 /// Elements in such collections are weakly referenced and can be removed
 /// from the collection whenever the element is no
 /// longer referenced by other variables and garbage collected.
-library weak;
+library;
 
 export 'src/weak_list.dart' show WeakList;
 export 'src/weak_hash_map.dart' show WeakHashMap;

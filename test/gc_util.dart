@@ -1,7 +1,7 @@
 // https://github.com/henrichen/weak
 // gc_util.dart - created by Henri Chen<chenhenri@gmail.com>
 // Copyright (C) 2024 Henri Chen<chenhenri@gmail.com>. All Rights Reserved.
-library gc_util;
+library;
 
 import 'dart:async';
 import 'dart:developer';
@@ -9,7 +9,6 @@ import 'dart:io';
 import 'dart:isolate';
 import 'package:test/test.dart';
 
-// import 'package:common_dart/utils/processes.dart';
 import 'package:logging/logging.dart';
 import 'package:vm_service/vm_service.dart' hide Isolate, Log;
 import 'package:vm_service/vm_service.dart' as vm_service;

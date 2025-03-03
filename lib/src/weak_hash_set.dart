@@ -52,10 +52,10 @@ class WeakHashSet<E extends Object> with SetMixin<E> {
 
   /// Create a hash set containing all [elements].
   ///
-  /// Creates a hash set as by WeakHashSet<E>() and adds all given [elements]
-  /// to the set. The [elements] are added in order. If [elements] contains
-  /// two entries that are equal, but not identical, then the first one is the
-  /// one in the resulting set.
+  /// Creates a hash set as by calling constructor [WeakHashSet.new] and adds
+  /// all given [elements] to the set. The [elements] are added in order. If
+  /// [elements] contains two entries that are equal, but not identical, then
+  /// the first one is the one in the resulting set.
   ///
   /// All the [elements] should be instances of [E]. The elements iterable
   /// itself may have any element type, so this constructor can be used to
@@ -66,10 +66,10 @@ class WeakHashSet<E extends Object> with SetMixin<E> {
 
   /// Create a hash set containing all [elements].
   ///
-  /// Creates a hash set as by WeakHashSet<E>() and adds all given [elements]
-  /// to the set. The [elements] are added in order. If [elements] contains
-  /// two entries that are equal, but not identical, then the first one is the
-  /// one in the resulting set.
+  /// Creates a hash set as by calling constructor [WeakHashSet.new] and adds
+  /// all given [elements] to the set. The [elements] are added in order. If
+  /// [elements] contains two entries that are equal, but not identical, then
+  /// the first one is the one in the resulting set.
   WeakHashSet.of(Iterable<E> elements)
       : _weakHashMap = WeakHashMap<E, dynamic>.fromIterable(elements,
             key: (e) => e, value: (e) => null);

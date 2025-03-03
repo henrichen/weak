@@ -1,7 +1,7 @@
 // https://github.com/henrichen/weak
 // weak_list_gc_test.dart - created by Henri Chen<chenhenri@gmail.com>
 // Copyright (C) 2024 Henri Chen<chenhenri@gmail.com>. All Rights Reserved.
-library weak_list_gc_test;
+library;
 
 import 'package:weak/weak.dart';
 import 'package:test/test.dart';
