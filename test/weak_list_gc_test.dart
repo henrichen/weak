@@ -6,6 +6,7 @@ library;
 import 'package:weak/weak.dart';
 import 'package:test/test.dart';
 import 'gc_util.dart';
+import 'data_util.dart';
 
 /// IMPORTANT: set VM options
 ///

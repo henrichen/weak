@@ -277,9 +277,6 @@ class WeakList<E extends Object> with ListMixin<E?> {
 
     final len = this.length; // purge GCed
     RangeError.checkValueInInterval(index, 0, len, "index");
-    if (iterable.isEmpty) {
-      return; // done; nothing to insert
-    }
     if (index == len) {
       addAll(iterable);
       return; // done
@@ -287,6 +284,22 @@ class WeakList<E extends Object> with ListMixin<E?> {
     final (j, seg) = _getSeg(index);
     final (k, offset) = _insertIterable(j, seg, index, iterable);
     _shift(k, offset);
+  }
+
+  /// Insert [count] of nulls into this WeakList at [index].
+  void insertNulls(int index, int count) {
+    _checkUnmodifiableAndFixLength();
+    if (count == 0) return;
+
+    final len = this.length; // purge GCed
+    RangeError.checkValueInInterval(index, 0, len, "index");
+    if (index == len) {
+      this._length += count;
+      return; // done
+    }
+    final (j, seg) = _getSeg(index);
+    final k = _insertNulls(j, seg, index);
+    _shift(k, count);
   }
 
   @override
@@ -652,6 +665,16 @@ class WeakList<E extends Object> with ListMixin<E?> {
     return _weakListRangeIterable<E>(this, start, end);
   }
 
+  Iterable<E> getNonNullRange(int start, int end) {
+    RangeError.checkValidRange(start, end, this.length);
+    return _weakListNonNullRangeIterable<E>(this, start, end);
+  }
+
+  Iterable<E> getNonNullRangeReversed(int start, int end) {
+    RangeError.checkValidRange(start, end, this.length);
+    return _weakListNonNullRangeReversedIterable<E>(this, start, end);
+  }
+
   @override
   E? reduce(E? Function(E? previousValue, E? element) combine) {
     final len = this.length; // purge GCed
@@ -865,6 +888,10 @@ class WeakList<E extends Object> with ListMixin<E?> {
     return -1;
   }
 
+  Iterable<E> get nonNulls => _weakListNonNullIterable(this);
+
+  Iterable<E> get nonNullsReversed => _weakListNonNullReversedIterable(this);
+
   @override
   Iterable<E?> skip(int count) => _weakListRangeIterable(this, count, _length);
 
@@ -964,7 +991,9 @@ class WeakList<E extends Object> with ListMixin<E?> {
 
   @override
   Iterable<E?> where(bool Function(E? value) test) =>
-      _weakListWhereIterable(this, test);
+      test(null)
+      ? _weakListWhereIterable(this, test)
+      : _weakListNonNullWhereIterable(this, test);
 
   List<WeakReference<E>> _deepCopy(_Seg<E> seg, int start, int end) {
     final src = seg.sublist(start, end);
@@ -1239,7 +1268,7 @@ class WeakList<E extends Object> with ListMixin<E?> {
       _finalizer.attach(fill, _Token());
     }
     if (sseg != null && identical(sseg, eseg)) {
-      // on the same segment; fill the segment
+      // on the same segment; fill the segmentst
       // final detached = sseg.fillRange(start, end, elements);
       // for (final weakRef in detached) {
       //   _finalizer.detach(weakRef);
@@ -1404,6 +1433,23 @@ class WeakList<E extends Object> with ListMixin<E?> {
     _segList.insertAll(j, result);
     j += result.length;
     return (j, offset);
+  }
+
+  // Return the starting _segList index
+  int _insertNulls(int j, _Seg<E>? seg, int index) {
+    if (seg != null) {
+      final (headSeg, tailSeg) = seg._split(index);
+      if (headSeg != null) {
+        j += 1;
+        if (tailSeg != null) {
+          // split an extra tailSeg
+          _segList.insert(j, tailSeg);
+        }
+      }
+    } else {
+      j += 1;
+    }
+    return j;
   }
 
   /// Returns the count of valid elements only.
@@ -1580,28 +1626,29 @@ int binarySearch<T>(List<T> sorted, T key, Comparator<T> comparator,
 
 int _compareSeg(_Seg a, _Seg b) => a.start - b.start;
 
-Iterable<E?> _weakListNonNullIterable<E extends Object>(WeakList<E> weakList,
+Iterable<E> _weakListNonNullIterable<E extends Object>(WeakList<E> weakList,
     [int segIndex = 0]) sync* {
   final segList = weakList._segList;
   final len = segList.length;
   for (int j = segIndex; j < len; ++j) {
     final seg = segList[j];
     for (final weakRef in seg._elements) {
-      yield weakRef.target;
+      final E? elm = weakRef.target;
+      if (elm != null) yield elm;
     }
   }
 }
 
-Iterable<E?> _weakListNonNullReversedIterable<E extends Object>(
+Iterable<E> _weakListNonNullReversedIterable<E extends Object>(
     WeakList<E> weakList,
     [int? segIndex]) sync* {
   final segList = weakList._segList;
-  final len = segList.length;
-  segIndex ??= len - 1;
+  segIndex ??= segList.length - 1;
   for (int j = segIndex; j >= 0; --j) {
     final seg = segList[j];
     for (final element in seg._elements.reversed) {
-      yield element.target;
+      final E? elm = element.target;
+      if (elm != null) yield elm;
     }
   }
 }
@@ -1685,7 +1732,7 @@ Iterable<E?> _weakListRangeIterable<E extends Object>(
   }
   sj += 1;
 
-  var (ej, eseg) = weakList._getSeg(end);
+  var (ej, eseg) = weakList._getSeg(end, sj);
   if (eseg == null) ej += 1;
 
   final segList = weakList._segList;
@@ -1704,6 +1751,100 @@ Iterable<E?> _weakListRangeIterable<E extends Object>(
     // return tail null until end
     for (var j = si; j < end; ++j) {
       yield null;
+    }
+  }
+}
+
+Iterable<E> _weakListNonNullRangeIterable<E extends Object>(
+    WeakList<E> weakList, int start, int end) sync* {
+  final segList = weakList._segList;
+  if (segList.isEmpty) return; // no element to yield
+  final maxNonNullEnd = segList.last.end;
+  if (end > maxNonNullEnd) end = maxNonNullEnd;
+  if (start >= end) return; // no element to yield
+  var (ej, eseg) = end >= maxNonNullEnd
+      ? (segList.length - 1, null)
+      : weakList._getSeg(end);
+
+  int si = start;
+  var (sj, sseg) = weakList._getSeg(start, 0, ej);
+  if (sseg != null) {
+    final end0 = min(end, sseg.end);
+    for (; si < end0; ++si) {
+      final elm = sseg.at(si);
+      if (elm != null) yield elm;
+    }
+  }
+  sj += 1;
+
+  if (eseg == null) ej += 1;
+
+  for (int k = sj; k < ej; ++k) {
+    final seg = segList[k];
+    final end0 = min(end, seg.end);
+    si = seg.start;
+    for (; si < end0; ++si) {
+      final elm = seg.at(si);
+      if (elm != null) yield elm;
+    }
+  }
+  if (sj <= ej && eseg != null) {
+    final end0 = min(end, eseg.end);
+    si = eseg.start;
+    for (; si < end0; ++si) {
+      final elm = eseg.at(si);
+      if (elm != null) yield elm;
+    }
+  }
+}
+
+Iterable<E> _weakListNonNullRangeReversedIterable<E extends Object>(
+    WeakList<E> weakList, int start, int end) sync* {
+  final segList = weakList._segList;
+  if (segList.isEmpty) return; // no element to yield
+  final maxNonNullEnd = segList.last.end;
+  if (end > maxNonNullEnd) end = maxNonNullEnd;
+  if (start >= end) return; // no element to yield
+  var (ej, eseg) = end >= maxNonNullEnd
+      ? (segList.length - 1, null)
+      : weakList._getSeg(end);
+
+  int ei = end;
+  if (eseg == null) {
+    if (ej < 0) return; // no element to yield
+    eseg = segList[ej];
+  }
+  final start0 = max(start, eseg.start);
+  while (--ei >= start0) {
+    final elm = eseg.at(ei);
+    if (elm != null) yield elm;
+  }
+
+  var (sj, sseg) = weakList._getSeg(start, 0, ej);
+  if (sseg == null) {
+    sj += 1;
+    if (sj < segList.length) {
+      sseg = segList[sj];
+      start = sseg.start;
+    }
+  }
+
+  for (int k = ej; --k > sj;) {
+    final seg = segList[k];
+    final start0 = max(start, seg.start);
+    ei = seg.end;
+    while (--ei >= start0) {
+      final elm = seg.at(ei);
+      if (elm != null) yield elm;
+    }
+  }
+
+  if (sj < ej && sseg != null) {
+    final start0 = max(start, sseg.start);
+    ei = sseg.end;
+    while (--ei >= start0) {
+      final elm = sseg.at(ei);
+      if (elm != null) yield elm;
     }
   }
 }
@@ -1785,6 +1926,13 @@ Iterable<E?> _weakListWhereIterable<E extends Object>(
     if (test(elm)) {
       yield elm;
     }
+  }
+}
+
+Iterable<E> _weakListNonNullWhereIterable<E extends Object>(
+    WeakList<E> weakList, bool Function(E? value) test) sync* {
+  for (final elm in _weakListNonNullIterable(weakList)) {
+    if (test(elm)) yield elm;
   }
 }
 
