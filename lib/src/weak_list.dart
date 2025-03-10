@@ -990,8 +990,7 @@ class WeakList<E extends Object> with ListMixin<E?> {
   }
 
   @override
-  Iterable<E?> where(bool Function(E? value) test) =>
-      test(null)
+  Iterable<E?> where(bool Function(E? value) test) => test(null)
       ? _weakListWhereIterable(this, test)
       : _weakListNonNullWhereIterable(this, test);
 
@@ -1762,9 +1761,8 @@ Iterable<E> _weakListNonNullRangeIterable<E extends Object>(
   final maxNonNullEnd = segList.last.end;
   if (end > maxNonNullEnd) end = maxNonNullEnd;
   if (start >= end) return; // no element to yield
-  var (ej, eseg) = end >= maxNonNullEnd
-      ? (segList.length - 1, null)
-      : weakList._getSeg(end);
+  var (ej, eseg) =
+      end >= maxNonNullEnd ? (segList.length - 1, null) : weakList._getSeg(end);
 
   int si = start;
   var (sj, sseg) = weakList._getSeg(start, 0, ej);
@@ -1805,9 +1803,8 @@ Iterable<E> _weakListNonNullRangeReversedIterable<E extends Object>(
   final maxNonNullEnd = segList.last.end;
   if (end > maxNonNullEnd) end = maxNonNullEnd;
   if (start >= end) return; // no element to yield
-  var (ej, eseg) = end >= maxNonNullEnd
-      ? (segList.length - 1, null)
-      : weakList._getSeg(end);
+  var (ej, eseg) =
+      end >= maxNonNullEnd ? (segList.length - 1, null) : weakList._getSeg(end);
 
   int ei = end;
   if (eseg == null) {

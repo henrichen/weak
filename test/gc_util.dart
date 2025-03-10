@@ -134,4 +134,3 @@ class Log {
 
   static printOff(String name) => Logger(name).clearListeners();
 }
-

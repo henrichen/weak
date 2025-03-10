@@ -1,3 +1,7 @@
+## 1.1.0+1
+
+- dart format source codes
+
 ## 1.1.0
 
 - add [WeakList.nonNulls] for the case that no need to iterate nulls (for better performance)

@@ -18,7 +18,6 @@ import 'data_util.dart';
 void main() async {
   final vmService = await VmServiceUtil.create();
 
-
   group("empty or one element list ", () {
     late WeakList<X> list;
     late List<X?> expected;

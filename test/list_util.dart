@@ -161,10 +161,8 @@ void expectLastWhere(WeakList<X> list, List<X?> expected, X? elseX) {
 
 void expectSingleWhere(WeakList<X> list, List<X?> expected, X? elseX) {
   final len = expected.length;
-  expect(
-      list.singleWhere((elm) => elm == null, orElse: () => elseX),
-      equals(
-          expected.singleWhere((elm) => elm == null, orElse: () => elseX)));
+  expect(list.singleWhere((elm) => elm == null, orElse: () => elseX),
+      equals(expected.singleWhere((elm) => elm == null, orElse: () => elseX)));
   for (int s = 0; s < len; ++s) {
     final x = expected[s];
     expect(list.singleWhere((elm) => elm == x, orElse: () => null),
@@ -219,14 +217,16 @@ void expectNonNulls(WeakList<X> list, List<X?> expected) {
 }
 
 void expectNonNullsReversed(WeakList<X> list, List<X?> expected) {
-  expect(list.nonNullsReversed, orderedEquals(expected.nonNulls.toList().reversed));
+  expect(list.nonNullsReversed,
+      orderedEquals(expected.nonNulls.toList().reversed));
 }
 
 void expectGetNonNullRange(WeakList<X> list, List<X?> expected) {
   final len = expected.length;
   for (int s = 0; s <= len; ++s) {
     for (int e = s; e <= len; ++e) {
-      expect(list.getNonNullRange(s, e), orderedEquals(getNonNullRange(expected, s, e)),
+      expect(list.getNonNullRange(s, e),
+          orderedEquals(getNonNullRange(expected, s, e)),
           reason: '($s, $e)');
     }
   }
@@ -237,7 +237,8 @@ void expectGetNonNullRangeReversed(WeakList<X> list, List<X?> expected) {
   final len = expected.length;
   for (int s = 0; s <= len; ++s) {
     for (int e = s; e <= len; ++e) {
-      expect(list.getNonNullRangeReversed(s, e), orderedEquals(getNonNullRangeReversed(expected, s, e)),
+      expect(list.getNonNullRangeReversed(s, e),
+          orderedEquals(getNonNullRangeReversed(expected, s, e)),
           reason: '($s, $e)');
     }
   }
@@ -251,7 +252,8 @@ Iterable<X> getNonNullRange(List<X?> expected, int start, int end) sync* {
   }
 }
 
-Iterable<X> getNonNullRangeReversed(List<X?> expected, int start, int end) sync* {
+Iterable<X> getNonNullRangeReversed(
+    List<X?> expected, int start, int end) sync* {
   for (int j = end; --j >= start;) {
     final elm = expected[j];
     if (elm != null) yield elm;
